@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from "react-redux";
 
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import {View, Text, FlatList, Button, StyleSheet, ActivityIndicator} from 'react-native';
 import Colors from "../../constants/Colors";
 
 import CartItem from "../../components/shop/CartItem";
@@ -14,6 +14,8 @@ import * as orderActions from '../../store/actions/orders'
 import OrdersScreen from "./OrdersScreen";
 
 const CartScreen = props => {
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const cartItems = useSelector(state => {
@@ -32,20 +34,33 @@ const CartScreen = props => {
 
     const dispatch = useDispatch();
 
+    const sendOrderHandler = async () => {
+        setIsLoading(true);
+        await dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+        setIsLoading(false);
+    };
+
  return (
       <View style={styles.screen}>
           <Card style={styles.summary}>
               <Text style={styles.summaryText}>Total:
                   <Text style={styles.ammount}>${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}</Text>
               </Text>
-              <Button
-                  title={'Order Now'}
-                  color={Colors.accent}
-                  disabled={cartItems.length === 0}
-                  onPress={() => {
-                      dispatch(orderActions.addOrder(cartItems, cartTotalAmount))
-                  }}
-              />
+              {isLoading ? (
+                  <ActivityIndicator
+                      size={'small'}
+                      color={Colors.primary}
+                  />
+                  ) : (
+                  <Button
+                      title={'Order Now'}
+                      color={Colors.accent}
+                      disabled={cartItems.length === 0}
+                      onPress={sendOrderHandler}
+                  />
+                  )
+              }
+
           </Card>
           <FlatList
               data={cartItems}

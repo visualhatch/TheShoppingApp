@@ -6,7 +6,8 @@ import * as Font from 'expo-font'
 
 import ShopNavigator from "./navigation/ShopNavigator";
 
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import ReduxThunk from 'redux-thunk';
 import { Provider } from "react-redux";
 
 import productsReducer from './store/reducers/products';
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
   orders: orderReducer
 });
 
-const store = createStore(rootReducer,);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
   return Font.loadAsync({
