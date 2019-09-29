@@ -1,3 +1,4 @@
+store/actions
 node_modules/**/*
 .expo/*
 npm-debug.*
