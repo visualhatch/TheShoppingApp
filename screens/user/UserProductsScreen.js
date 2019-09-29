@@ -36,6 +36,14 @@ const UserProductsScreen = props => {
         ])
     };
 
+    if (userProducts.length === 0) {
+        return (
+            <View style={styles.noProducts}>
+                <Text>No products found. Maybe start creating some!!</Text>
+            </View>
+        )
+    }
+
     return (
         <FlatList
             data={userProducts}
@@ -97,7 +105,11 @@ UserProductsScreen.navigationOptions = navData => {
 };
 
 const styles = StyleSheet.create({
-
+    noProducts: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 export default UserProductsScreen;

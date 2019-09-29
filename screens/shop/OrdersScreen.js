@@ -38,6 +38,14 @@ const OrdersScreen = props => {
         )
     }
 
+    if (orders.length === 0) {
+        return (
+            <View style={styles.noOrders}>
+                <Text>No orders found. Maybe start ordering some products!!</Text>
+            </View>
+        )
+    }
+
  return (
      <FlatList
          data={orders}
@@ -72,6 +80,11 @@ OrdersScreen.navigationOptions = navData => {
 
 const styles = StyleSheet.create({
     isLoadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    noOrders: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
